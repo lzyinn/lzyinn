@@ -1,13 +1,18 @@
 package PlagiarismChecker;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 //import java.io.BufferedInputStream;
 //import java.io.BufferedOutputStream;
-//import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class PlagiarismChecker {
+	private static final String NULL = null;
+
 	public static void main(String args[]) throws IOException {
 			/*提醒用户输入两篇文本的绝对路径*/
 			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -39,13 +44,20 @@ public class PlagiarismChecker {
 	}
 	
 	/*将文本转换为字符串*/
-	public static String FiletoString(String Path) {
-		
-		return Path;
+	public static String FiletoString(String Path) throws IOException {
+		StringBuilder content = new StringBuilder();
+		try(BufferedReader s = new BufferedReader(new FileReader(Path))){
+		String line;
+		while((line = s.readLine()) != null){
+			content.append(line).append("\n");
+		}
+		}
+		return content.toString();
 	}
 	
 	/*计算simHash*/
 	public static long calSimHash(String TXT) {
+
 		return 0;
 	}
 	
@@ -55,7 +67,11 @@ public class PlagiarismChecker {
 	}
 	
 	/*将结果存储到文件中*/
-	public static void ResulttoFile(double result,String Path) {
-		
+	public static void ResulttoFile(double result,String Path) throws IOException {
+		String _2fResult = String.format("%.2f",result);
+		FileWriter fileWriter = new FileWriter(Path);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+	    printWriter.println(_2fResult);
+		printWriter.close();
 	}
 }
