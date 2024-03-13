@@ -1,17 +1,13 @@
 package PlagiarismChecker;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-//import java.io.BufferedInputStream;
-//import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class PlagiarismChecker {
-	private static final String NULL = null;
 
 	public static void main(String args[]) throws IOException {
 			/*提醒用户输入两篇文本的绝对路径*/
@@ -26,8 +22,8 @@ public class PlagiarismChecker {
 			String compareTXT = FiletoString(comparePath);
 			
 			/*计算simHash*/
-			long originalSimHash = calSimHash(originalTXT);
-			long compareSimHash = calSimHash(compareTXT);
+			long originalSimHash = SimHashUtils.calSimHash(originalTXT);
+			long compareSimHash = SimHashUtils.calSimHash(compareTXT);
 			
 			/*计算海明距离*/
 			int hammingDistance = calHammingDistance(originalSimHash,compareSimHash);
@@ -55,15 +51,15 @@ public class PlagiarismChecker {
 		return content.toString();
 	}
 	
-	/*计算simHash*/
-	public static long calSimHash(String TXT) {
-
-		return 0;
-	}
-	
 	/*计算海明距离*/
 	public static int calHammingDistance(long simHash1,long simHash2) {
-		return 0;
+        long xorResult = simHash1 ^ simHash2;
+        int distance = 0;
+        while (xorResult != 0) {
+            distance++;
+            xorResult &= xorResult - 1;
+        }
+        return distance;
 	}
 	
 	/*将结果存储到文件中*/
